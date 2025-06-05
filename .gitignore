@@ -4,8 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
-/Keys/*
-/keys
+keys/
+Keys/
 # testing
 /coverage
 
