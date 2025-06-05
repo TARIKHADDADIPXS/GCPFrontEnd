@@ -7,6 +7,7 @@ import { useTheme } from "@mui/material/styles";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import CloseIcon from "@mui/icons-material/Close";
+import appConfig from "./config/app.config";
 
 interface UploadViewProps {
     user: any;
@@ -32,23 +33,25 @@ const UploadView: React.FC<UploadViewProps> = ({ user }) => {
         setFile(null);
         setPreview(null);
     };
+    const backendUrl = appConfig.apiBaseUrl;
+
 
     const handleUpload = async () => {
         if (!file) return;
         setUploading(true);
         try {
             // Getting the right Url where to store
-            const res = await fetch("http://localhost:4000/api/get-signed-url", {
+            const res = await fetch(`${backendUrl}/api/get-signed-url`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ filename: file.name }) 
+                body: JSON.stringify({ filename: file.name })
             });
 
             // Upload the image to the bucket storage
             const { url } = await res.json();
             await fetch(url, {
                 method: "PUT",
-                headers: {     "Content-Type": "application/octet-stream" },
+                headers: { "Content-Type": "application/octet-stream" },
                 body: file
             });
             alert("Upload successful!");

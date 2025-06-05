@@ -6,7 +6,9 @@ steps:
   - name: "gcr.io/cloud-builders/npm"
     dir: "frontend"
     args: ["run", "build"]
-
+    env:
+      - REACT_APP_BACKEND_URL=${_REACT_APP_BACKEND_URL}
+      
   - name: "gcr.io/cloud-builders/gcloud"
     args: [
       "app",
