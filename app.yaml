@@ -3,8 +3,12 @@ env: standard
 service: frontend
 
 handlers:
+  - url: /(.*\.(js|css|png|jpg|ico|json|txt|svg|woff2?))$
+    static_files: build/\1
+    upload: build/(.*\.(js|css|png|jpg|ico|json|txt|svg|woff2?))$
   - url: /.*
-    script: auto
+    static_files: build/index.html
+    upload: build/index.html
 # Optional: Set environment variables
 # env_variables:
 #   NODE_ENV: 'production'
