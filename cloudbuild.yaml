@@ -1,16 +1,21 @@
 steps:
-  - name: 'gcr.io/cloud-builders/npm'
-    args: ['install']
-  - name: 'gcr.io/cloud-builders/npm'
-    args: ['run', 'build']
-  - name: 'gcr.io/cloud-builders/gcloud'
+  - name: "gcr.io/cloud-builders/npm"
+    dir: "frontend"
+    args: ["install"]
+
+  - name: "gcr.io/cloud-builders/npm"
+    dir: "frontend"
+    args: ["run", "build"]
+
+  - name: "gcr.io/cloud-builders/gcloud"
+    dir: "frontend"
     args: [
-        "app",
-        "deploy",
-        "app.yaml",
-        "--project=codit-luxembourg",
-        "--quiet"
-      ]
+      "app",
+      "deploy",
+      "app.yaml",
+      "--project=codit-luxembourg",
+      "--quiet"
+    ]
     timeout: "20000s"
 
 options:

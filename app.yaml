@@ -1,5 +1,6 @@
 runtime: nodejs20
 env: standard
+service: frontend
 
 handlers:
   - url: /.*
