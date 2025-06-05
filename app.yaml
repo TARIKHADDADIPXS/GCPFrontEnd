@@ -5,8 +5,6 @@ service: frontend
 handlers:
   - url: /.*
     script: auto
-    secure: always
-    redirect_http_response_code: 301
 # Optional: Set environment variables
 # env_variables:
 #   NODE_ENV: 'production'
