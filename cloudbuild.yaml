@@ -2,13 +2,15 @@ steps:
   - name: "gcr.io/cloud-builders/npm"
     dir: "frontend"
     args: ["install"]
+    env:
+      - REACT_APP_BACKEND_URL=${_REACT_APP_BACKEND_URL}
 
   - name: "gcr.io/cloud-builders/npm"
     dir: "frontend"
     args: ["run", "build"]
     env:
       - REACT_APP_BACKEND_URL=${_REACT_APP_BACKEND_URL}
-      
+
   - name: "gcr.io/cloud-builders/gcloud"
     args: [
       "app",
@@ -17,6 +19,8 @@ steps:
       "--project=codit-luxembourg",
       "--quiet"
     ]
+    env:
+      - REACT_APP_BACKEND_URL=${_REACT_APP_BACKEND_URL}
     timeout: "20000s"
 
 options:
