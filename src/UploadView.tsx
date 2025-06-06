@@ -20,7 +20,7 @@ const UploadView: React.FC = () => {
     const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (uploading) return;
+        if (uploading) return; // Prevent selecting a new file while uploading
         const selected = e.target.files?.[0];
         setFile(selected || null);
         setPreview(selected ? URL.createObjectURL(selected) : null);
@@ -31,6 +31,7 @@ const UploadView: React.FC = () => {
         setPreview(null);
     };
     const backendUrl = appConfig.apiBaseUrl;
+
 
 
     const handleUpload = async () => {
@@ -52,13 +53,14 @@ const UploadView: React.FC = () => {
                 body: file
             });
             alert("Upload successful!");
+            setFile(null);      // Reset file after upload
+            setPreview(null);   // Reset preview after upload
         } catch (err) {
             alert("Upload failed!");
         } finally {
             setUploading(false);
         }
     };
-
     return (
         <Box
             display="flex"
@@ -109,7 +111,7 @@ const UploadView: React.FC = () => {
                         startIcon={<CloudUploadIcon />}
                         sx={{ mb: 2 }}
                         fullWidth
-                        disabled={uploading}
+                        disabled={uploading} // Prevent selecting new file while uploading
                     >
                         Choose File
                         <input
@@ -118,7 +120,7 @@ const UploadView: React.FC = () => {
                             capture="environment"
                             hidden
                             onChange={handleFileChange}
-                            disabled={uploading}
+                            disabled={uploading} // Prevent selecting new file while uploading
                         />
                     </Button>
                     {preview && (
