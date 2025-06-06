@@ -38,7 +38,7 @@ const UploadView: React.FC = () => {
         setUploading(true);
         try {
             // Getting the right Url where to store
-            const res = await fetch(`${backendUrl}/api/get-signed-url`, {
+            const res = await fetch(`${backendUrl}/get-signed-url`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ filename: file.name })
