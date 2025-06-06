@@ -9,11 +9,8 @@ import "react-medium-image-zoom/dist/styles.css";
 import CloseIcon from "@mui/icons-material/Close";
 import appConfig from "./config/app.config";
 
-interface UploadViewProps {
-    user: any;
-}
 
-const UploadView: React.FC<UploadViewProps> = ({ user }) => {
+const UploadView: React.FC = () => {
     const [file, setFile] = useState<File | null>(null);
     const [preview, setPreview] = useState<string | null>(null);
     const [zoomOpen, setZoomOpen] = useState(false);
