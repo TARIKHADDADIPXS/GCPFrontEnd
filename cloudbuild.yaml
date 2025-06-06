@@ -2,14 +2,14 @@ steps:
   - name: "gcr.io/cloud-builders/npm"
     args: ["install"]
     env:
+      - REACT_APP_API_BASE_URL=${_REACT_APP_API_BASE_URL}
       - REACT_APP_GOOGLE_CLIENT_ID=${_REACT_APP_GOOGLE_CLIENT_ID}
-      - REACT_APP_BACKEND_URL=${_REACT_APP_BACKEND_URL}
 
   - name: "gcr.io/cloud-builders/npm"
     args: ["run", "build"]
     env:
+      - REACT_APP_API_BASE_URL=${_REACT_APP_API_BASE_URL}
       - REACT_APP_GOOGLE_CLIENT_ID=${_REACT_APP_GOOGLE_CLIENT_ID}
-      - REACT_APP_BACKEND_URL=${_REACT_APP_BACKEND_URL}
 
   - name: "gcr.io/cloud-builders/gcloud"
     args: [
@@ -19,13 +19,9 @@ steps:
       "--project=codit-luxembourg",
       "--quiet"
     ]
-    env:
-      - REACT_APP_GOOGLE_CLIENT_ID=${_REACT_APP_GOOGLE_CLIENT_ID}
-      - REACT_APP_BACKEND_URL=${_REACT_APP_BACKEND_URL}
     timeout: "20000s"
 
 options:
   defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
 
 images: []
-# filepath: d:\CACTUS\gcp-material-app\cloudbuild.yaml
