@@ -68,29 +68,7 @@ const UploadView: React.FC = () => {
             alignItems="center"
             justifyContent="center"
             minHeight="60vh"
-            sx={{
-                backgroundImage:
-                    "url('https://assets.paperjam.lu/images/articles/plus-economique-au-plus-chic-s/0.5/0.5/640/426/667445.jpg')",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                width: "100%",
-                height: "100vh",
-                p: 2,
-                m: 0,
-                overflow: "hidden",
-            }}
         >
-            <Box
-                sx={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100vh",
-                    bgcolor: "#ffffffe6",
-                    zIndex: 1,
-                }}
-            />
             <Paper elevation={0} sx={{
                 p: 2, borderRadius: 3, width: "100%", maxWidth: 400,
                 background: "rgba(255,255,255,0.85)",
