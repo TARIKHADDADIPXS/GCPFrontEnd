@@ -1,46 +1,122 @@
-# Getting Started with Create React App
+# GCP Material App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a React application bootstrapped with [Create React App](https://github.com/facebook/create-react-app), styled with Material UI, and configured for deployment on Google Cloud Platform (GCP) App Engine. It features file upload functionality with signed URLs, modern TypeScript, and a robust developer workflow.
 
-## Available Scripts
+## Main Technologies & Tools
 
-In the project directory, you can run:
+- **React 19**: Modern UI library for building interactive user interfaces.
+- **TypeScript**: Strongly-typed language that builds on JavaScript, providing type safety.
+- **Material UI (MUI)**: Component library for fast and beautiful UI development.
+- **@emotion/react & @emotion/styled**: CSS-in-JS libraries used by MUI for styling.
+- **react-medium-image-zoom**: Provides image zoom functionality in the UI.
+- **Google Cloud Platform (GCP) App Engine**: The app is configured for deployment on GCP using App Engine Standard Environment.
+- **Cloud Build**: Automated build and deployment using [cloudbuild.yaml](cloudbuild.yaml).
+- **Husky & lint-staged**: Git hooks for enforcing code quality and linting before commits.
+- **Commitlint**: Enforces conventional commit messages.
+- **Jest & React Testing Library**: For unit and integration testing.
+- **ESLint**: Linting for code quality and consistency.
 
-### `npm start`
+## Project Structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- `/src`: Main source code (React components, theme, config, etc.)
+- `/public`: Static assets and HTML template.
+- `/build`: Production build output (generated).
+- `/keys`: (gitignored) for storing sensitive credentials locally.
+- `.husky/`: Git hooks for pre-commit and commit-msg.
+- `app.yaml`: GCP App Engine configuration.
+- `cloudbuild.yaml`: GCP Cloud Build pipeline configuration.
+- `.eslintrc.json`: ESLint configuration.
+- `tsconfig.json`: TypeScript configuration.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Key Features
 
-### `npm test`
+- **File Upload with Signed URLs**: Users can upload images or PDFs, which are sent to a backend that provides a signed URL for secure upload to cloud storage.
+- **Material UI Theming**: Custom theme defined in [`src/theme.ts`](src/theme.ts) for consistent look and feel.
+- **Responsive Design**: Uses MUI’s responsive utilities for mobile-friendly layouts.
+- **Image Preview & Zoom**: Uploaded images are previewed and can be zoomed in using `react-medium-image-zoom`.
+- **Environment-based Config**: API base URL and Google Client ID are managed via environment variables and [`src/config/app.config.ts`](src/config/app.config.ts).
+- **Automated Quality Checks**: Pre-commit hooks and linting ensure code quality.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Development
 
-### `npm run build`
+### Install dependencies
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```sh
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Start the development server
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```sh
+npm start
+```
 
-### `npm run eject`
+### Run tests
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```sh
+npm test
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Build for production
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```sh
+npm run build
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### Lint code
 
-## Learn More
+```sh
+npm run lint
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Deployment
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Deployment is automated via GCP Cloud Build and App Engine. See [cloudbuild.yaml](cloudbuild.yaml) and [app.yaml](app.yaml) for details.
+
+## Environment Variables
+
+- `REACT_APP_API_BASE_URL`: Base URL for backend API.
+- `REACT_APP_GOOGLE_CLIENT_ID`: Google OAuth client ID.
+
+These are set in your environment or via Cloud Build substitutions.
+
+## CI/CD Pipeline
+
+This project uses Google Cloud Build for continuous integration and deployment (CI/CD), targeting Google App Engine as the hosting platform.
+
+- **Cloud Build**: The build and deployment process is defined in [cloudbuild.yaml](cloudbuild.yaml). When you push changes to your repository, Cloud Build automatically:
+  1. Installs dependencies (`npm install`).
+  2. Builds the React app for production (`npm run build`), injecting environment variables for API endpoints and Google OAuth.
+  3. Deploys the built app to Google App Engine using the configuration in [app.yaml](app.yaml).
+
+- **App Engine**: [app.yaml](app.yaml) specifies the Node.js runtime and static file handlers. The built React app is served as a static site from the `/build` directory.
+
+- **Environment Variables**: Cloud Build passes environment variables (`REACT_APP_API_BASE_URL`, `REACT_APP_GOOGLE_CLIENT_ID`) to the build process, ensuring the deployed app is correctly configured for its environment.
+
+- **Automation**: This setup enables automated deployments on every commit, ensuring your app is always up-to-date with the latest code changes.
+
+For more details, see [cloudbuild.yaml](cloudbuild.yaml) and [app.yaml](app.yaml).
+
+## Commitlint and Conventional Commits
+
+This project uses **Commitlint** and **Husky** to enforce [Conventional Commits](https://www.conventionalcommits.org/) for all commit messages. This helps maintain a clear, consistent commit history and enables automated versioning and changelog generation if needed.
+
+- **Commitlint** checks commit messages against the conventional commit specification.
+- **Husky** sets up a `commit-msg` Git hook to run Commitlint automatically on every commit.
+- If a commit message does not follow the convention (e.g., `feat: add upload button`), the commit will be rejected until the message is fixed.
+
+You can find the configuration in `.husky/` and `commitlint.config.js`.
+
+
+## Security
+
+- Sensitive keys are stored in the `/keys` directory, which is gitignored.
+- Uses signed URLs for secure file uploads.
+
+## License
+
+This project is licensed under the MIT License.
+
+---
+
+For more details, see the source files and comments throughout the codebase.
