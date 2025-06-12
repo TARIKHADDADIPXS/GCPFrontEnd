@@ -1,0 +1,27 @@
+steps:
+  - name: "gcr.io/cloud-builders/npm"
+    args: ["install"]
+    env:
+      - REACT_APP_API_BASE_URL=${_REACT_APP_API_BASE_URL}
+      - REACT_APP_GOOGLE_CLIENT_ID=${_REACT_APP_GOOGLE_CLIENT_ID}
+
+  - name: "gcr.io/cloud-builders/npm"
+    args: ["run", "build"]
+    env:
+      - REACT_APP_API_BASE_URL=${_REACT_APP_API_BASE_URL}
+      - REACT_APP_GOOGLE_CLIENT_ID=${_REACT_APP_GOOGLE_CLIENT_ID}
+
+  - name: "gcr.io/cloud-builders/gcloud"
+    args: [
+      "app",
+      "deploy",
+      "app.yaml",
+      "--project=codit-luxembourg",
+      "--quiet"
+    ]
+    timeout: "20000s"
+
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET
+
+images: []
