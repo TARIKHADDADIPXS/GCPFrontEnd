@@ -1,6 +1,0 @@
-
-dispatch:
-- url: "frontend.poccactus.lu/*"
-  service: frontend
-- url: "poccactus.lu/*"
-  service: frontend
