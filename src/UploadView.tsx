@@ -42,14 +42,14 @@ const UploadView: React.FC = () => {
             const res = await fetch(`${backendUrl}get-signed-url`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ filename: file.name })
+                body: JSON.stringify({ filename: file.name, fileType: file.type })
             });
 
             // Upload the image to the bucket storage
             const { url } = await res.json();
             await fetch(url, {
                 method: "PUT",
-                headers: { "Content-Type": "application/octet-stream" },
+                headers: { "Content-Type": file.type },
                 body: file
             });
             alert("Upload successful!");
