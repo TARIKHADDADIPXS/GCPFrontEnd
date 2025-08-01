@@ -19,6 +19,7 @@ import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import CloseIcon from "@mui/icons-material/Close";
 import appConfig from "./config/app.config";
+import { TextField } from "@mui/material";
 
 // Import icons for different file types
 import { PictureAsPdf, TableView, Slideshow, FolderZip, Article, AudioFile, PlayCircle } from "@mui/icons-material";
@@ -28,7 +29,7 @@ const UploadView: React.FC = () => {
     const [preview, setPreview] = useState<string | null>(null);
     const [zoomOpen, setZoomOpen] = useState(false);
     const [uploading, setUploading] = useState(false);
-
+    const [location, setLocation] = useState("");
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -53,14 +54,26 @@ const UploadView: React.FC = () => {
             const res = await fetch(`${backendUrl}get-signed-url`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ filename: file.name, fileType: file.type }),
+                body: JSON.stringify({ filename: file.name, fileType: file.type, location }),
             });
 
-            const { url } = await res.json();
+            const { url, metadataUrl } = await res.json();
+
             await fetch(url, {
                 method: "PUT",
                 headers: { "Content-Type": file.type },
                 body: file,
+            });
+
+             // Upload metadata
+            await fetch(metadataUrl, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    location,
+                    timestamp: new Date().toISOString(),
+                    filename: file.name,
+                }),
             });
             alert("Upload successful!");
             setFile(null);
@@ -269,6 +282,16 @@ const UploadView: React.FC = () => {
                             </Dialog>
                         </Box>
                     )}
+
+                    <TextField
+                        label="Location"
+                        value={location}
+                        onChange={(e) => setLocation(e.target.value)}
+                        variant="outlined"
+                        fullWidth
+                        disabled={uploading}
+                        sx={{ mt: 2 }}
+                    />
                     <Button
                         variant="contained"
                         color="primary"
